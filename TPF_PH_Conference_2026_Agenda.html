@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TPF PH Conference 2026 — Digital Agenda</title>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Playfair+Display:ital,wght@0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #C0392B;
+    --gold: #D4A017;
+    --navy: #1A2A4A;
+    --blue: #1A4FA0;
+    --cream: #FDF6E3;
+  }
+  body { font-family: 'Lato', sans-serif; background: var(--cream); color: #1a1a1a; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--red) 0%, #8B1A1A 30%, var(--navy) 65%, #0d1f3c 100%);
+    padding: 50px 24px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .banderitas { display: flex; justify-content: center; gap: 6px; margin-bottom: 28px; position: relative; }
+  .flag { width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 22px solid var(--gold); animation: swing 2s ease-in-out infinite; }
+  .flag:nth-child(2) { border-top-color: var(--red); animation-delay: .2s; }
+  .flag:nth-child(3) { border-top-color: #2563EB; animation-delay: .4s; }
+  .flag:nth-child(4) { border-top-color: var(--gold); animation-delay: .6s; }
+  .flag:nth-child(5) { border-top-color: var(--red); animation-delay: .8s; }
+  .flag:nth-child(6) { border-top-color: #2563EB; animation-delay: 1s; }
+  .flag:nth-child(7) { border-top-color: var(--gold); animation-delay: 1.2s; }
+  .flag:nth-child(8) { border-top-color: var(--red); animation-delay: 1.4s; }
+  .flag:nth-child(9) { border-top-color: #2563EB; animation-delay: 1.6s; }
+  @keyframes swing { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+  .hero-label { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .hero-title { font-family: 'Abril Fatface', serif; font-size: clamp(36px,7vw,72px); color: white; line-height: 1; margin-bottom: 6px; text-shadow: 3px 3px 0 rgba(0,0,0,.3); }
+  .hero-title span { color: var(--gold); }
+  .hero-sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(13px,2.5vw,18px); color: rgba(255,255,255,.75); margin-bottom: 22px; }
+  .hero-meta { display: inline-flex; gap: 20px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 40px; padding: 10px 24px; backdrop-filter: blur(6px); flex-wrap: wrap; justify-content: center; }
+  .hero-meta span { font-size: 12px; color: rgba(255,255,255,.9); letter-spacing: 1px; font-weight: 300; }
+  .hero-meta span strong { color: var(--gold); font-weight: 700; }
+
+  /* TABS */
+  .tab-bar { display: flex; background: var(--navy); position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--gold); }
+  .tab { flex: 1; padding: 14px 8px; text-align: center; cursor: pointer; color: rgba(255,255,255,.5); font-weight: 700; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; transition: all .25s; position: relative; border: none; background: none; }
+  .tab.active { color: var(--gold); }
+  .tab.active::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 3px; background: var(--gold); }
+  .tab-day { font-size: 17px; display: block; font-family: 'Abril Fatface', serif; letter-spacing: 0; color: inherit; }
+
+  /* PANELS */
+  .day-panel { display: none; animation: fadeIn .3s ease; }
+  .day-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
+
+  .day-banner { padding: 28px 24px 20px; text-align: center; border-bottom: 1px solid rgba(0,0,0,.08); }
+  .day-banner.d1 { background: linear-gradient(135deg,#FFF8E7,#FDF0C0); }
+  .day-banner.d2 { background: linear-gradient(135deg,#EEF3FF,#D6E4FF); }
+  .day-banner.d3 { background: linear-gradient(135deg,#F0FFF4,#C6F6D5); }
+  .day-badge { display: inline-block; font-family: 'Abril Fatface', serif; font-size: 13px; letter-spacing: 2px; padding: 5px 16px; border-radius: 20px; margin-bottom: 10px; }
+  .d1 .day-badge { background: var(--gold); color: white; }
+  .d2 .day-badge { background: var(--blue); color: white; }
+  .d3 .day-badge { background: #27AE60; color: white; }
+  .day-banner h2 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--navy); }
+  .day-banner p { font-size: 12px; color: #777; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* TIMELINE */
+  .timeline { max-width: 700px; margin: 0 auto; padding: 32px 20px 48px; }
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #aaa; margin: 28px 0 14px; display: flex; align-items: center; gap: 10px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: #e0d8c8; }
+  .event-card { display: flex; gap: 16px; margin-bottom: 14px; }
+  .time-col { width: 76px; flex-shrink: 0; text-align: right; padding-top: 16px; }
+  .time { font-size: 11px; font-weight: 700; color: #999; letter-spacing: .5px; }
+  .connector { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 24px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--gold); background: white; margin-top: 18px; flex-shrink: 0; z-index: 1; }
+  .dot.filled { background: var(--gold); }
+  .dot.red { border-color: var(--red); background: var(--red); }
+  .dot.blue { border-color: var(--blue); background: var(--blue); }
+  .dot.green { border-color: #27AE60; background: #27AE60; }
+  .line { flex: 1; width: 2px; background: linear-gradient(to bottom,#e0d8c8,transparent); margin-top: 4px; }
+  .card-body { flex: 1; background: white; border-radius: 12px; padding: 14px 18px; box-shadow: 0 2px 8px rgba(0,0,0,.06); border-left: 3px solid var(--gold); transition: transform .15s, box-shadow .15s; }
+  .card-body:hover { transform: translateX(3px); box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+  .card-body.red-accent { border-left-color: var(--red); }
+  .card-body.blue-accent { border-left-color: var(--blue); }
+  .card-body.green-accent { border-left-color: #27AE60; }
+  .card-body.special { background: linear-gradient(135deg,#1A2A4A 0%,#1A4FA0 100%); color: white; border-left-color: var(--gold); }
+  .card-body.gala { background: linear-gradient(135deg,#2C1810 0%,#8B1A1A 100%); color: white; border-left-color: var(--gold); }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .card-body.special .card-title, .card-body.gala .card-title { color: var(--gold); }
+  .card-desc { font-size: 12.5px; color: #666; line-height: 1.6; }
+  .card-body.special .card-desc, .card-body.gala .card-desc { color: rgba(255,255,255,.75); }
+  .tag { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; }
+  .tag-fun { background: #FFF3CD; color: #856404; }
+  .tag-food { background: #D4EDDA; color: #155724; }
+  .tag-awards { background: #F8D7DA; color: #721c24; }
+  .tag-workshop { background: #D1ECF1; color: #0c5460; }
+  .tag-gala { background: var(--gold); color: white; }
+  .tag-free { background: #E2E3E5; color: #383d41; }
+  .speakers { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .speaker-chip { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 12px; background: rgba(255,255,255,.15); color: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.2); }
+
+  /* GALA OVERVIEW */
+  .gala-overview { background: linear-gradient(135deg,#1A0A04,#5C0E0E,#1A2A4A); color: white; padding: 28px 24px; text-align: center; }
+  .gala-overview h3 { font-family: 'Abril Fatface', serif; font-size: 26px; color: var(--gold); margin-bottom: 6px; }
+  .gala-overview .theme { font-family: 'Playfair Display', serif; font-style: italic; font-size: 14px; color: rgba(255,255,255,.7); margin-bottom: 20px; }
+  .gala-details { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; max-width: 420px; margin: 0 auto; }
+  .gala-detail { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: 10px; padding: 12px; }
+  .gala-detail .label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .gala-detail .value { font-size: 13px; font-weight: 700; }
+
+  /* FOOTER */
+  .footer { background: var(--navy); text-align: center; padding: 24px; color: rgba(255,255,255,.5); font-size: 11px; letter-spacing: 1px; }
+  .footer strong { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="banderitas">
+    <div class="flag"></div><div class="flag"></div><div class="flag"></div>
+    <div class="flag"></div><div class="flag"></div><div class="flag"></div>
+    <div class="flag"></div><div class="flag"></div><div class="flag"></div>
+  </div>
+  <div class="hero-label">TPF · The Perfect Franchise</div>
+  <div class="hero-title">PH Conference <span>2026</span></div>
+  <div class="hero-sub">Isang Gabi ng Bayanihan at Pagdiriwang</div>
+  <div class="hero-meta">
+    <span>📍 <strong>Estancia de Lorenzo</strong>, San Mateo Rizal</span>
+    <span>📅 <strong>May 23–25, 2026</strong></span>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="showDay(1,this)">
+    <span class="tab-day">Day 1</span>May 23 · Arrival
+  </button>
+  <button class="tab" onclick="showDay(2,this)">
+    <span class="tab-day">Day 2</span>May 24 · Gala Night
+  </button>
+  <button class="tab" onclick="showDay(3,this)">
+    <span class="tab-day">Day 3</span>May 25 · Departure
+  </button>
+</div>
+
+<!-- DAY 1 -->
+<div class="day-panel active" id="day1">
+  <div class="day-banner d1">
+    <div class="day-badge">Day 1 · May 23</div>
+    <h2>Arrival & Welcome</h2>
+    <p>Meet & Greet · Happy Hour</p>
+  </div>
+  <div class="timeline">
+    <div class="section-label">Morning</div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">8:00 AM</span></div>
+      <div class="connector"><div class="dot filled"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-fun">Setup</div>
+        <div class="card-title">Conference Swag Organization</div>
+        <div class="card-desc">Flatlay of all the merch — montage videos and photos taken by the hired event team.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">9:00 AM</span></div>
+      <div class="connector"><div class="dot filled"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-food">Food</div>
+        <div class="card-title">Morning Snacks</div>
+        <div class="card-desc">AM snacks served while the team continues setup.</div>
+      </div>
+    </div>
+    <div class="section-label">Afternoon</div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">12:00 PM</span></div>
+      <div class="connector"><div class="dot filled"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-food">Food</div>
+        <div class="card-title">Lunch</div>
+        <div class="card-desc">Lunch served for the arriving team and staff.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">1:00 PM</span></div>
+      <div class="connector"><div class="dot filled"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-fun">Welcome</div>
+        <div class="card-title">Swag & Raffle Ticket Distribution</div>
+        <div class="card-desc">Events team distributes conference swag bags and raffle tickets as coordinators arrive.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">2:00 PM</span></div>
+      <div class="connector"><div class="dot filled"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-fun">Entertainment</div>
+        <div class="card-title">🪄 Magician for Kids</div>
+        <div class="card-desc">A magician performs for the little ones — fun for the whole family!</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">3:00 PM</span></div>
+      <div class="connector"><div class="dot filled"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-fun">Check-in</div>
+        <div class="card-title">Villa Check-In</div>
+        <div class="card-desc">Coordinators and companions check in to their villas and settle in.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">4:00 PM</span></div>
+      <div class="connector"><div class="dot filled"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-food">Food</div>
+        <div class="card-title">Afternoon Snacks</div>
+        <div class="card-desc">PM snacks served at the venue.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">4:30 PM</span></div>
+      <div class="connector"><div class="dot filled"></div><div class="line"></div></div>
+      <div class="card-body blue-accent">
+        <div class="tag tag-workshop">Meet & Greet</div>
+        <div class="card-title">🎤 Meet & Greet — With a Twist!</div>
+        <div class="card-desc">Self-introductions with a fun twist · Karaoke Night · Filipino Piñata · Trivia: <em>"Guess Who's in the Picture"</em></div>
+      </div>
+    </div>
+    <div class="section-label">Evening</div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">7:00 PM</span></div>
+      <div class="connector"><div class="dot filled"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-food">Dinner</div>
+        <div class="card-title">Dinner</div>
+        <div class="card-desc">Dinner served for all attendees.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">8:00 PM</span></div>
+      <div class="connector"><div class="dot"></div></div>
+      <div class="card-body blue-accent">
+        <div class="tag tag-fun">🍹 Nightcap</div>
+        <div class="card-title">Happy Hour</div>
+        <div class="card-desc">Mobile bar opens — drinks, laughter, and good vibes to close out the first night!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 2 -->
+<div class="day-panel" id="day2">
+  <div class="day-banner d2">
+    <div class="day-badge">Day 2 · May 24</div>
+    <h2>Team Building & Gala Night</h2>
+    <p>Workshop · Awards · Celebrations</p>
+  </div>
+  <div class="timeline">
+    <div class="section-label">Morning Assembly</div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">7:30 AM</span></div>
+      <div class="connector"><div class="dot blue"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-food">Breakfast</div>
+        <div class="card-title">Breakfast & Registration</div>
+        <div class="card-desc">Informal gathering and team check-in over breakfast.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">8:30 AM</span></div>
+      <div class="connector"><div class="dot blue"></div><div class="line"></div></div>
+      <div class="card-body blue-accent">
+        <div class="tag tag-workshop">Opening</div>
+        <div class="card-title">Welcome Remarks</div>
+        <div class="card-desc">Overview of the day's program and team-building mechanics explained.</div>
+      </div>
+    </div>
+    <div class="section-label">Team Building</div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">8:45 AM</span></div>
+      <div class="connector"><div class="dot blue"></div><div class="line"></div></div>
+      <div class="card-body blue-accent">
+        <div class="tag tag-fun">🏀 Sports</div>
+        <div class="card-title">Mini Basketball League</div>
+        <div class="card-desc">Mixed US + PH teams compete in a short tournament-style basketball league (men).</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">10:00 AM</span></div>
+      <div class="connector"><div class="dot blue"></div><div class="line"></div></div>
+      <div class="card-body blue-accent">
+        <div class="tag tag-fun">🎮 Games</div>
+        <div class="card-title">Games Rotation — 6 Stations</div>
+        <div class="card-desc">10 min each · Don't Drop the Ball · Shoot the Calamansi · Tic-Tac-Toe · Cup Maze · Balloon Relay · Lava Walk</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">11:15 AM</span></div>
+      <div class="connector"><div class="dot blue"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-awards">🏆 Awards</div>
+        <div class="card-title">Team-Building Awards Ceremony</div>
+        <div class="card-desc">Games Winners · MVP Award · Sportsmanship Award</div>
+      </div>
+    </div>
+    <div class="section-label">Midday</div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">11:45 AM</span></div>
+      <div class="connector"><div class="dot blue"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-food">Lunch + 🎭</div>
+        <div class="card-title">Lunch & Comedian Performance</div>
+        <div class="card-desc">A live comedian performs while everyone enjoys lunch — the perfect mix of food and laughs!</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">1:30 PM</span></div>
+      <div class="connector"><div class="dot blue"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-free">Free Time</div>
+        <div class="card-title">Rest & Gala Prep</div>
+        <div class="card-desc">Rest, outfit changes, rehearsal for the event team. PM snacks served at 3:30 PM.</div>
+      </div>
+    </div>
+    <div class="section-label">✨ Gala Night</div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">4:00 PM</span></div>
+      <div class="connector"><div class="dot red"></div><div class="line"></div></div>
+      <div class="card-body gala">
+        <div class="tag tag-gala">Call Time</div>
+        <div class="card-title">Cocktail Hour</div>
+        <div class="card-desc">Filipino-inspired drinks and photo wall (step & repeat) to kick off the evening.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">4:30 PM</span></div>
+      <div class="connector"><div class="dot red"></div><div class="line"></div></div>
+      <div class="card-body gala">
+        <div class="tag tag-gala">Opening</div>
+        <div class="card-title">Cultural Welcome & Remarks</div>
+        <div class="card-desc">Philippine National Anthem · Opening remarks by <strong style="color:var(--gold)">Roxanne Gabriel</strong>, TPF Partner</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">5:00 PM</span></div>
+      <div class="connector"><div class="dot red"></div><div class="line"></div></div>
+      <div class="card-body special">
+        <div class="tag tag-workshop">Workshop</div>
+        <div class="card-title">Leadership Workshop</div>
+        <div class="card-desc">Speaker series with entertainment between each talk, closing with an open panel Q&A for coordinators.</div>
+        <div class="speakers">
+          <span class="speaker-chip">Mark</span>
+          <span class="speaker-chip">Kris</span>
+          <span class="speaker-chip">Emily</span>
+          <span class="speaker-chip">Tim</span>
+        </div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">7:15 PM</span></div>
+      <div class="connector"><div class="dot red"></div><div class="line"></div></div>
+      <div class="card-body gala">
+        <div class="tag tag-food">Dinner</div>
+        <div class="card-title">Formal Dinner</div>
+        <div class="card-desc">Dinner proper — formal dining for all US & PH consultants.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">8:15 PM</span></div>
+      <div class="connector"><div class="dot red"></div><div class="line"></div></div>
+      <div class="card-body gala">
+        <div class="tag tag-gala">Sharing</div>
+        <div class="card-title">TPF Housing Program Presentations</div>
+        <div class="card-desc">Recipients share their progress and heartfelt gratitude — a moment of celebration and community.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">9:00 PM</span></div>
+      <div class="connector"><div class="dot red"></div><div class="line"></div></div>
+      <div class="card-body gala">
+        <div class="tag tag-awards">🏆 Awards</div>
+        <div class="card-title">Loyalty Awards</div>
+        <div class="card-desc">Recognition of long-tenured coordinators. Special gifts for consultants Mark, Emily, Kris & Tim.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">9:30 PM</span></div>
+      <div class="connector"><div class="dot red"></div><div class="line"></div></div>
+      <div class="card-body gala">
+        <div class="tag tag-fun">🎰 Raffle</div>
+        <div class="card-title">Raffle Draw</div>
+        <div class="card-desc">Win electronics, cash, and gift cards — everyone has a chance!</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">9:45 PM</span></div>
+      <div class="connector"><div class="dot red"></div></div>
+      <div class="card-body gala">
+        <div class="tag tag-gala">Closing</div>
+        <div class="card-title">Closing Remarks & Group Photo</div>
+        <div class="card-desc">Closing by <strong style="color:var(--gold)">Kris</strong> · Group photo to end a magical night together.</div>
+      </div>
+    </div>
+  </div>
+  <div class="gala-overview">
+    <h3>✨ Gala Night at a Glance</h3>
+    <div class="theme">"Isang Gabi ng Bayanihan at Pagdiriwang"</div>
+    <div class="gala-details">
+      <div class="gala-detail"><div class="label">Dress Code</div><div class="value">Barong & Filipiniana</div></div>
+      <div class="gala-detail"><div class="label">Date & Time</div><div class="value">May 24 · 4:00 PM</div></div>
+      <div class="gala-detail"><div class="label">Highlights</div><div class="value">Workshop · Awards · Raffle</div></div>
+      <div class="gala-detail"><div class="label">Audience</div><div class="value">US & PH Consultants</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 3 -->
+<div class="day-panel" id="day3">
+  <div class="day-banner d3">
+    <div class="day-badge">Day 3 · May 25</div>
+    <h2>Farewell & Departure</h2>
+    <p>Photos · Memories · Until Next Time</p>
+  </div>
+  <div class="timeline">
+    <div class="section-label">Morning</div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">7:00 AM</span></div>
+      <div class="connector"><div class="dot green"></div><div class="line"></div></div>
+      <div class="card-body green-accent">
+        <div class="tag tag-food">Breakfast</div>
+        <div class="card-title">Breakfast</div>
+        <div class="card-desc">Final morning breakfast together before checkout.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">8:00 AM</span></div>
+      <div class="connector"><div class="dot green"></div><div class="line"></div></div>
+      <div class="card-body green-accent">
+        <div class="tag tag-fun">📸 Photo</div>
+        <div class="card-title">Company Photo Op</div>
+        <div class="card-desc">Official group photo — the one you'll frame and keep forever.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">9:00 AM</span></div>
+      <div class="connector"><div class="dot green"></div><div class="line"></div></div>
+      <div class="card-body green-accent">
+        <div class="tag tag-fun">📸 Fun</div>
+        <div class="card-title">Photobooth</div>
+        <div class="card-desc">Fun props and candid moments to take home as memories.</div>
+      </div>
+    </div>
+    <div class="section-label">Midday · Departure</div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">10:00 AM</span></div>
+      <div class="connector"><div class="dot green"></div><div class="line"></div></div>
+      <div class="card-body">
+        <div class="tag tag-food">Lunch</div>
+        <div class="card-title">Final Lunch Together</div>
+        <div class="card-desc">One last shared meal before everyone heads home.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="time-col"><span class="time">12:00 PM</span></div>
+      <div class="connector"><div class="dot green"></div></div>
+      <div class="card-body green-accent">
+        <div class="tag tag-fun">✈️ Departure</div>
+        <div class="card-title">Checkout & Team Departure</div>
+        <div class="card-desc">Safe travels, everyone! See you at the next conference. 💛</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <strong>TPF PH Conference 2026</strong> · Estancia de Lorenzo, San Mateo Rizal · May 23–25, 2026
+</div>
+
+<script>
+  function showDay(n, el) {
+    document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('day' + n).classList.add('active');
+    el.classList.add('active');
+  }
+</script>
+</body>
+</html>
